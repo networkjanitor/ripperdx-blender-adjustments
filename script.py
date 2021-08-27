@@ -2,8 +2,8 @@ bl_info = {
     "name": "3D Ripper DX Adjustments",
     "description": "Fixes xscale, yscale, zscale, texture paths and materials",
     "category": "Mesh",
-    "version": (0, 1),
-    "blender": (2, 76, 0),
+    "version": (0, 2),
+    "blender": (2, 83, 0),
     "author": "Xyoz Netsphere",
     #"location": 
     "support": "COMMUNITY"
@@ -11,13 +11,14 @@ bl_info = {
 
 import bpy
 import re
+import os
 from bpy.props import FloatProperty, StringProperty
 
 class RipperDXPanel(bpy.types.Panel):
     bl_space_type = "VIEW_3D"
-    bl_region_type = "TOOLS"
+    bl_region_type = "UI"
     bl_context = "objectmode"
-    bl_category = "Tools"
+    bl_category = "3D Ripper DX"
     bl_label = "3D Ripper DX S4L"
 
     bpy.types.Scene.ripperdx_xscale = FloatProperty(
@@ -88,15 +89,17 @@ class RipperDXImportValues(bpy.types.Operator):
     bl_label = "Import Values from obj"
     bl_options = {'REGISTER'}
     def invoke(self, context, event):
+        appdata = os.getenv('APPDATA')
+        
         if bpy.context.scene['ripperdx_sourceobj'] != "":
              try:
                  with open(bpy.path.abspath(bpy.context.scene['ripperdx_sourceobj'])) as f:
                      line = f.readline()
                      line = line[1:line.find('#',1)]
-                     with open('C:\\Users\\xyoz\\AppData\\Roaming\\line.txt', 'w') as r:
+                     with open(appdata + 'line.txt', 'w') as r:
                          r.write(line)
                      result = re.search('(?P<xscale>Xscale:[^.]*\.[^,]*).*?(?P<yscale>Yscale:[^.]*\.[^,]*).*?(?P<zscale>Zscale:[^.]*\.[^\s#]*)',line)
-                     with open('C:\\Users\\xyoz\\AppData\\Roaming\\lresultf.txt', 'w') as r:
+                     with open(appdata + 'lresultf.txt', 'w') as r:
                          r.write(result.group('xscale')[7:] + '\n' + result.group('yscale')[7:] + '\n' + result.group('zscale')[7:])
                      bpy.context.scene['ripperdx_xscale'] = float(result.group('xscale')[7:])
                      bpy.context.scene['ripperdx_yscale'] = float(result.group('yscale')[7:])
