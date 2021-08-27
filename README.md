@@ -4,6 +4,6 @@ Allows you to extract scaling from the ripped `.obj` files. Supports Blender 2.8
 
 ## Usage
 
-Import the `.obj` as usual. Then go to the right option panel, click on `3D Ripper DX`, select the source `.obj` again there, import and adjust scalings.
+Import the `.obj`, but make sure you check `Split by Group` under the `Geometery` Tab. Then go to the right option panel, click on `3D Ripper DX`, select the source `.obj` again there, import and adjust scalings.
 
-The same can be done for broken textures.
+Textures can be fixed by simply setting the `Texture Path` and then clicking `Fix Textures`
